@@ -1,0 +1,59 @@
+~ start
+
+Nathan: Good day, stranger. What brings you to these parts?
+- Ask about the town
+	Nathan: It's a quiet place, mostly. We keep to ourselves.
+	set State.nathan_reputation = State.nathan_reputation + 5 # Positive choice
+	Coco: Interesting. Thanks for the info.
+	
+	- Try to bribe him (Requires high reputation)
+	if State.nathan_reputation >= 20:
+		Nathan: What do you take me for? This isn't that kind of place.
+		set State.nathan_reputation = State.nathan_reputation - 10 # Major negative if it fails
+		Coco: Just testing the waters...
+	 # What happens if you DON'T have enough reputation for the secret option
+	else:
+		Nathan: What's that look for? I don't appreciate your implications.
+		set State.nathan_reputation = State.nathan_reputation - 5 # Moderate negative for attempting
+		Coco: Uh, nothing! Sorry.
+	- Show him a rare artifact (Requires specific item/status)
+	if State.has_rare_artifact: # Assuming you have a boolean 'has_rare_artifact' in State
+		Nathan: By the stars! I haven't seen one of these in years.
+		set State.nathan_reputation = State.nathan_reputation + 15 # Major positive
+		Coco: Glad you appreciate it.
+	else:
+		Nathan: What are you showing me? I'm busy.
+		set State.nathan_reputation = State.nathan_reputation - 2 # Minor negative for wasting his time
+		Coco: Never mind.
+		
+- Complain about the weather
+	Nathan: The weather is what it is. No sense fussing over it.
+	set State.nathan_reputation = State.nathan_reputation - 3 # Negative choice (slight decrease)
+	Coco: Guess so. Just saying.
+
+	- Try to bribe him (Requires high reputation)
+	if State.nathan_reputation >= 20:
+		Nathan: What do you take me for? This isn't that kind of place.
+		set State.nathan_reputation = State.nathan_reputation - 10 # Major negative if it fails
+		Coco: Just testing the waters...
+	 # What happens if you DON'T have enough reputation for the secret option
+	else:
+		Nathan: What's that look for? I don't appreciate your implications.
+		set State.nathan_reputation = State.nathan_reputation - 5 # Moderate negative for attempting
+		Coco: Uh, nothing! Sorry.
+		
+	- Show him a rare artifact (Requires specific item/status)
+	if State.has_rare_artifact: # Assuming you have a boolean 'has_rare_artifact' in State
+		Nathan: By the stars! I haven't seen one of these in years.
+		set State.nathan_reputation = State.nathan_reputation + 15 # Major positive
+		Coco: Glad you appreciate it.
+	else:
+		Nathan: What are you showing me? I'm busy.
+		set State.nathan_reputation = State.nathan_reputation - 2 # Minor negative for wasting his time
+		Coco: Never mind.
+
+- Farewell
+	Nathan: Until next time, then.
+	Coco: See ya.
+
+=> END
