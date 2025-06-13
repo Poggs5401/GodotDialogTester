@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://b1au01m7lrbfp"]
+[gd_scene load_steps=14 format=4 uid="uid://b1au01m7lrbfp"]
 
 [ext_resource type="Texture2D" uid="uid://bxngxqv2vonco" path="res://world/tiles.png" id="1_gv7bj"]
 [ext_resource type="PackedScene" uid="uid://c4373iviuy8gy" path="res://helpers/camera.tscn" id="1_wd0fv"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://du4j6pj7cdnxs" path="res://actionable.tscn" id="6_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://bnl1bl0a2235p" path="res://characters/nathan/nathan.tscn" id="6_ilwpu"]
 [ext_resource type="Resource" uid="uid://c1d7poejpbf6f" path="res://dialogue/test.dialogue" id="7_7r4gi"]
+[ext_resource type="Resource" uid="uid://puat2byc2f6s" path="res://dialogue/merchant.dialogue" id="9_7r4gi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4af00"]
 texture = ExtResource("1_gv7bj")
@@ -72,3 +73,13 @@ shape = SubResource("CircleShape2D_w7kh3")
 
 [node name="AppleTree" parent="." instance=ExtResource("5_h6ns3")]
 position = Vector2(184, 88)
+
+[node name="Merchant" parent="." instance=ExtResource("6_ilwpu")]
+position = Vector2(184, 103)
+
+[node name="Actionable" parent="Merchant" instance=ExtResource("6_4mrxx")]
+collision_mask = 0
+dialogue_resource = ExtResource("9_7r4gi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Merchant/Actionable"]
+shape = SubResource("CircleShape2D_w7kh3")

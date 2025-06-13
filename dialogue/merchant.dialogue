@@ -1,0 +1,62 @@
+~ start
+
+# Dialogue line at the first indent level (e.g., 0 spaces)
+Merchant: Hello there, traveler. How can I help you today?
+
+# Option 1: Try to buy the rare artifact
+# Options themselves must be at the same indentation level as the dialogue line they branch from (e.g., 0 spaces)
+- Ask about rare items
+    # Lines indented under the option are executed if the option is chosen
+    # These lines are one indent level deeper (e.g., 4 spaces)
+    # Check if reputation (now Nathan's reputation) is too low
+	if State.nathan_reputation <= 0:
+		Merchant: Hmph. I don't serve folks with your reputation. Come back when you've earned some respect.
+		Coco: Well, that's rude.
+		=> END
+
+    # If reputation is acceptable, proceed to offer the item
+    # These lines are at the same indent level as the 'if' above (4 spaces)
+	Merchant: Ah, you have an eye for quality! I happen to have a rare artifact. It will cost you {State.rare_artifact_cost} gold.
+	if State.has_rare_artifact:
+		Merchant: But it seems you already possess such an item. No need for another, surely?
+		Coco: Just checking.
+		=> END
+
+	- Buy rare artifact ({State.rare_artifact_cost} gold)
+		if State.player_money >= State.rare_artifact_cost:
+			# Lines under the 'if' are one indent level deeper (e.g., 12 spaces)
+			set State.player_money = State.player_money - State.rare_artifact_cost
+			set State.has_rare_artifact = true
+			set State.nathan_reputation = State.nathan_reputation + 5
+			Merchant: A pleasure doing business with you! Your gold is accepted. You now have {State.player_money} gold.
+			Coco: Pleasure's all mine.
+		else:
+			Merchant: You don't have enough gold for that, friend. You only have {State.player_money} gold.
+			Coco: Darn, I'll be back.
+	- Don't buy
+        # Lines under the sub-option are one indent level deeper (e.g., 8 spaces)
+		Merchant: Perhaps another time, then.
+
+# Option 2: Just chat to try and improve reputation
+# This option is at the same indent level as the first main option (e.g., 0 spaces)
+- Just Browse
+    # Lines indented under the option are executed if chosen (e.g., 4 spaces)
+	Merchant: Take your time. We have many fine wares.
+	set State.nathan_reputation = State.nathan_reputation + 2
+
+# Option 3: Offend the merchant
+# This option is at the same indent level (e.g., 0 spaces)
+- Insult his shop's decor
+    # Lines indented under the option (e.g., 4 spaces)
+	Merchant: Get out of my shop! I don't need your kind of patronage!
+	set State.nathan_reputation = State.nathan_reputation - 15
+	Coco: Fine, be that way!
+	=> END
+
+# Option 4: Leave the shop
+# This option is at the same indent level (e.g., 0 spaces)
+- Leave
+    # Lines indented under the option (e.g., 4 spaces)
+	Merchant: Farewell.
+
+=> END
